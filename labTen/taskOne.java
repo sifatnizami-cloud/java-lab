@@ -1,26 +1,44 @@
-class Student {
-    private String name;
-    private int id;
-    private double cgpa;
 
-    public void setName(String name) { this.name = name; }
-    public void setId(int id) { this.id = id; }
-    public void setCgpa(double cgpa) { this.cgpa = cgpa; }
-
-    public String getName() { return name; }
-    public int getId() { return id; }
-    public double getCgpa() { return cgpa; }
+interface ATMService {
+    void withdraw(double amount);
+    void deposit(double amount);
+    double checkBalance();
 }
+class DBBL implements ATMService {
+    private double balance;
 
-public class Main {
+    public DBBL(double initialBalance) {
+        this.balance = initialBalance;
+    }
+    @Override
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawn: $" + amount + ". Remaining balance: $" + balance);
+        } else {
+            System.out.println("Insufficient balance or invalid amount!");
+        }
+    }
+    @Override
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: $" + amount + ". New balance: $" + balance);
+        } else {
+            System.out.println("Deposit amount must be positive.");
+        }
+    }
+    @Override
+    public double checkBalance() {
+        return balance;
+    }
+}
+public class ATMDemo {
     public static void main(String[] args) {
-        Student s = new Student();
-        s.setName("Sifat Nizami");
-        s.setId(3050);
-        s.setCgpa(3.00);
-
-        System.out.println(s.getName());
-        System.out.println(s.getId());
-        System.out.println(s.getCgpa());
+        System.out.println("=== Task 2: ATM Service (DBBL) ===");
+        DBBL atm = new DBBL(1000.0);
+        atm.deposit(300.0);
+        atm.withdraw(200.0);
+        System.out.println("Final balance: $" + atm.checkBalance());
     }
 }
